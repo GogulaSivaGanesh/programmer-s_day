@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+#game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 400px; 
+}
+.score {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 24px;
+    padding: 10px 0;
+}
+.player-x {
+    color: #f44336;
+}
+.player-o {
+    color: #2196F3;
+}
+.message {
+    margin-top: 10px;
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+}
+#tic-tac-toe {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 5px;
+}
+.cell {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 2px solid #333;
+    font-size: 36px;
+    line-height: 100px;
+    background-color: #ddd;
+}
+.cell:hover {
+    background-color: #eee;
+}
+#restartButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.winner-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+}
+.winner-message {
+    font-size: 32px;
+    text-align: center;
+    color: #fff;
+    opacity: 0; 
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+.emoji {
+    font-size: 64px;
+}
+.next-game-button {
+    background-color: #333;
+    color: #fff;
+    font-size: 24px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.show-popup .winner-message {
+    opacity: 1;
+    transform: translateY(0);
+}

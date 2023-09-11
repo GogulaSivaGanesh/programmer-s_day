@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="game">
+        <div class="score">
+            <span class="player-x">Player X: <span id="score-x">0</span></span>
+            <span class="player-o">Player O: <span id="score-o">0</span></span>
+        </div>
+        <div class="message" id="message">Player X's Turn</div>
+        <div id="tic-tac-toe">
+            <div class="cell" id="cell-0"></div>
+            <div class="cell" id="cell-1"></div>
+            <div class="cell" id="cell-2"></div>
+            <div class="cell" id="cell-3"></div>
+            <div class="cell" id="cell-4"></div>
+            <div class="cell" id="cell-5"></div>
+            <div class="cell" id="cell-6"></div>
+            <div class="cell" id="cell-7"></div>
+            <div class="cell" id="cell-8"></div>
+        </div>
+        <button id="restartButton">Restart Game</button>
+    </div>
+    <div class="winner-popup" id="winner-popup">
+        <div class="winner-message">
+            <span id="winner-text">Player X Wins!</span>
+            <div class="emoji" id="emoji">😄</div>
+            <button class="next-game-button" id="next-game-button">Next Game</button>
+        </div>
+    </div>
+
+    <script>
+        const board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let gameEnded = false;
+        let scoreX = 0;
+        let scoreO = 0;
+
+        const cells = document.querySelectorAll(".cell");
+        const message = document.getElementById("message");
+        const scoreXElement = document.getElementById("score-x");
+        const scoreOElement = document.getElementById("score-o");
+        const restartButton = document.getElementById("restartButton");
+
+        const winnerPopup = document.getElementById("winner-popup");
+        const winnerText = document.getElementById("winner-text");
+        const emojiElement = document.getElementById("emoji");
+        const nextGameButton = document.getElementById("next-game-button");
+
+        function handleMove(cellIndex) {
+            if (board[cellIndex] === "" && !gameEnded) {
+                board[cellIndex] = currentPlayer;
+                cells[cellIndex].innerText = currentPlayer;
+
+                if (checkWin()) {
+                    message.innerText = `Player ${currentPlayer} wins!`;
+                    gameEnded = true;
+                    if (currentPlayer === "X") {
+                        scoreX++;
+                    } else {
+                        scoreO++;
+                    }
+                    updateScores();
+                    showWinnerPopup(currentPlayer);
+                } else if (board.every(cell => cell !== "")) {
+                    message.innerText = "It's a draw!";
+                    gameEnded = true;
+                    showWinnerPopup("Draw");
+                } else {
+                    currentPlayer = currentPlayer === "X" ? "O" : "X";
+                    message.innerText = `Player ${currentPlayer}'s Turn`;
+                }
+            }
+        }
+
+        function checkWin() {
+            const winCombinations = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+
+            for (const combination of winCombinations) {
+                const [a, b, c] = combination;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function restartGame() {
+            board.fill("");
+            cells.forEach(cell => cell.innerText = "");
+            message.innerText = "Player X's Turn";
+            currentPlayer = "X";
+            gameEnded = false;
+        }
+
+        function updateScores() {
+            scoreXElement.innerText = scoreX;
+            scoreOElement.innerText = scoreO;
+        }
+
+        function showWinnerPopup(winner) {
+            winnerText.innerText = winner === "Draw" ? "It's a Draw!" : `Player ${winner} Wins!`;
+            emojiElement.innerText = winner === "Draw" ? "😐" : winner === "X" ? "😄" : "😃";
+            winnerPopup.style.display = "flex";
+            winnerPopup.classList.add("show-popup");
+        }
+
+        function hideWinnerPopup() {
+            winnerPopup.classList.remove("show-popup");
+            setTimeout(() => {
+                winnerPopup.style.display = "none";
+                restartGame();
+            }, 500);
+        }
+
+        cells.forEach((cell, index) => {
+            cell.addEventListener("click", () => {
+                handleMove(index);
+            });
+        });
+
+        restartButton.addEventListener("click", restartGame);
+        nextGameButton.addEventListener("click", hideWinnerPopup);
+    </script>
+</body>
+</html>
